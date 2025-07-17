@@ -5,8 +5,11 @@ import {useQuery} from "@tanstack/react-query";
 import {fetchCategories, fetchQuizzes} from "@/lib/actions";
 import {useCallback, useMemo, useState} from "react";
 import {Coins, Play} from "lucide-react";
+import {useRouter} from "next/navigation";
 
 export default function DashboardPage() {
+
+    const router = useRouter();
 
     const [state, setState] = useState({
         selectedCategory: ""
@@ -47,6 +50,12 @@ export default function DashboardPage() {
 
     console.log({categories, quizzes})
 
+
+
+    const onclickButtonHandler = (slug:string) =>{
+        router.push(`/quiz-play/${slug}`)
+    }
+
     return <div className={"flex flex-col w-full py-6 gap-8"}>
         <div className={"flex min-h-fit overflow-x-auto gap-3 px-1 border-b-2 border-accent pb-4"}>
             {
@@ -86,6 +95,7 @@ export default function DashboardPage() {
                                 </p>
                             </div>
                             <div
+                                onClick={()=>onclickButtonHandler(quiz._id)}
                                 className={"p-1 h-full bg-green-700 flex items-center justify-center aspect-square rounded-full"}>
                                 <Play className={"stroke-primary fill-primary size-8"}/>
                             </div>
@@ -96,3 +106,43 @@ export default function DashboardPage() {
         </div>
     </div>
 }
+
+
+
+// route to be navigate : /quiz-play/[_id]
+// API to get one quiz : /quiz/686d732c2639399ea68ba08f => GET
+
+/*
+*
+[
+  {
+    "_id": "687144fc898aad9d87dc0f0a",
+    "createdAt":"2025-07-11T17:08:12.586Z",
+    "options": [
+      {
+        "text": "1",
+        "isCorrect": false,
+        "_id": "68714557898aad9d87dc0f51"
+      },
+      {
+        "text": "4",
+        "isCorrect": false,
+        "_id": "68714557898aad9d87dc0f52"
+      },
+      {
+        "text": "6",
+        "isCorrect": true,
+        "_id": "68714557898aad9d87dc0f53"
+      },
+      {
+        "text": "7",
+        "isCorrect": false,
+        "_id": "68714557898aad9d87dc0f54"
+      }
+    ],
+    "question": "Loremc dfdfd dkf dkhd dk dkhdkdhfdkhfdkfdjh ervjhdkf  dfkjh dfkjh dkfjh",
+    "quiz": "68707784b17156bd6bdc6593",
+  }
+]
+
+* */
