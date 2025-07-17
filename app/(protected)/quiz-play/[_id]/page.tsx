@@ -71,7 +71,7 @@ export default async function QuizPlayPage({params}: PageProps) {
                     </div>
 
                     <Link
-                        href={`/quiz-play/${_id}/game`}
+                        href={`/quiz/${_id}`}
                         className="block text-center w-full bg-white text-black font-bold py-2 rounded-lg my-4 hover:bg-gray-200 transition"
                         aria-label={`Start ${title} quiz`}
                     >

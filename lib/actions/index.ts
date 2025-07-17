@@ -9,3 +9,7 @@ export const fetchQuizzes = ({search}: { search?: string }) => axiosInstance.get
 }).then(({data}) => data.quizzes);
 
 export const fetchQuizById = async (id: string) => axiosInstance.get(`/quiz/${id}`).then(({data}) => data);
+
+export const fetchQuestions = async ({quiz}: { quiz?: string }) => axiosInstance.get(`/question`, {
+    params: {quiz}
+}).then(({data}) => data.questions);
