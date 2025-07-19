@@ -1,12 +1,14 @@
 'use client';
 
 
-import {useParams} from "next/navigation";
+import {useParams,useRouter} from "next/navigation";
 import {useQuery} from "@tanstack/react-query";
 import {fetchQuestions} from "@/lib/actions";
-import {useCallback, useMemo, useState} from "react";
+import {useCallback, useEffect, useMemo, useState} from "react";
 
 export default function QuizPlayPage() {
+
+    const router = useRouter();
 
     const [state, setState] = useState({
         currentQuestionIndex: 0,
@@ -20,7 +22,7 @@ export default function QuizPlayPage() {
     const {data} = useQuery({
         queryKey: ['questions'].concat(_id ? `quiz-${_id}` : []),
         queryFn: async () => {
-            const data = await fetchQuestions({quiz: _id as string})
+                const data = await fetchQuestions({quiz: _id as string})
             if (data.length) {
                 setState((prevState) => ({
                     ...prevState,
@@ -41,6 +43,7 @@ export default function QuizPlayPage() {
             }
         }
     });
+
 
     const currentQuestion = useMemo<{
         question: string,
@@ -73,6 +76,18 @@ export default function QuizPlayPage() {
             }))
         }, 1000)
     }, [correctOption?._id]);
+
+    useEffect(() => {
+        if (!data?.length) return;
+
+        const quizOver =
+            state.currentQuestionIndex >= data.length || state.remainTime <= 0;
+
+        if (quizOver) {
+            router.push(`/quiz/${_id}/reward?score=${state.coin}`);
+        }
+    }, [state.currentQuestionIndex, state.remainTime, data, _id, router]);
+
 
 
     return (<>

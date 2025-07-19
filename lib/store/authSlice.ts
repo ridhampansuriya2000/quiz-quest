@@ -11,12 +11,10 @@ interface User {
 
 interface AuthState {
     user: User | null
-    isAuthenticated: boolean
 }
 
 const initialState: AuthState = {
     user: null,
-    isAuthenticated: false,
 }
 
 const authSlice = createSlice({
@@ -25,11 +23,9 @@ const authSlice = createSlice({
     reducers: {
         setUser: (state, action: PayloadAction<User>) => {
             state.user = action.payload
-            state.isAuthenticated = true
         },
         logout: (state) => {
             state.user = null
-            state.isAuthenticated = false
         },
         addCoins: (state, action: PayloadAction<number>) => {
             if (state.user) {

@@ -13,3 +13,27 @@ export const fetchQuizById = async (id: string) => axiosInstance.get(`/quiz/${id
 export const fetchQuestions = async ({quiz}: { quiz?: string }) => axiosInstance.get(`/question`, {
     params: {quiz}
 }).then(({data}) => data.questions);
+
+
+/** AUTH */
+export const login = async ({email, password}: {
+    email: string,
+    password: string
+}) => axiosInstance.post("/auth/login", {
+    email,
+    password
+}).then(({data}) => data);
+
+export const signup = async ({name, email, password}: {
+    name: string,
+    email: string,
+    password: string
+}) => axiosInstance.post("/auth/signup", {
+    name,
+    email,
+    password
+}).then(({data}) => data);
+
+export const logout = async () => axiosInstance.post("/auth/logout").then(({data}) => data);
+
+export const me = async () => axiosInstance.post("/auth/me").then(({data}) => data?.user);

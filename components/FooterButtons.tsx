@@ -33,6 +33,7 @@ export default function FooterButtons() {
 
     const pathname = usePathname();
 
+
     return (
         <div className={"flex"}>
             <NavigationMenu className={"mx-auto"} viewport={false}>

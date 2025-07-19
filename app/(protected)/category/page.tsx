@@ -6,8 +6,11 @@ import {useQuery} from "@tanstack/react-query";
 import {fetchCategories} from "@/lib/actions";
 import React, {useCallback, useState} from "react";
 import {useDebounce} from "@/hooks/useDebounce";
+import {useRouter} from "next/navigation";
 
 export default function CategoryPage() {
+
+    const router = useRouter();
 
     const [state, setState] = useState({
         search: ""
@@ -25,7 +28,11 @@ export default function CategoryPage() {
             ...prevState,
             search: event.target.value
         }))
-    }, [])
+    }, []);
+    
+    const onCategoryClickHandler = useCallback((category: string) => {
+        router.push(`/?category=${category}`)
+    }, [router])
 
     return <div className={"flex flex-col w-full py-6 gap-8"}>
         <p className={"text-center text-lg font-semibold text-primary"}>
@@ -50,6 +57,7 @@ export default function CategoryPage() {
                     image: string
                 }) => (
                     <div key={category._id}
+                         onClick={onCategoryClickHandler.bind(null, category._id)}
                          className={"flex cursor-pointer items-center justify-center gap-2 p-1.5 border-1 border-primary rounded-full"}>
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img src={category.image} alt={category.name} className={"w-10 rounded-full aspect-square"}/>
